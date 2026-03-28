@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shaakira Titus — Art Director</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Inter from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- Source Serif 4 local fonts -->
+  <style>
+    @font-face {
+      font-family: 'Source Serif 4';
+      src: url('fonts/SourceSerif4-VariableFont.ttf') format('truetype');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Source Serif 4';
+      src: url('fonts/SourceSerif4-Italic-VariableFont.ttf') format('truetype');
+      font-weight: 100 900;
+      font-style: italic;
+      font-display: swap;
+    }
+  </style>
+
+  <style>
+    /* ─── RESET & BASE ──────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:      #FAF7F2;
+      --beige:      #EDE5D8;
+      --beige-mid:  #D9CDBC;
+      --tan:        #B8A48E;
+      --accent:     #f0cdc7;
+      --accent-dim: rgba(240, 205, 199, 0.35);
+      --warm-black: #1C1815;
+      --dark:       #2E2822;
+      --mid:        #6B5C4E;
+      --light-text: #9E8E80;
+      --white:      #FFFFFF;
+      --border:     rgba(180, 160, 140, 0.2);
+
+      --ff-display: 'Source Serif 4', Georgia, serif;
+      --ff-body:    'Inter', system-ui, sans-serif;
+
+      --max-w: 1280px;
+      --gutter: clamp(1.5rem, 5vw, 5rem);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--warm-black);
+      font-family: var(--ff-body);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── PASSWORD GATE ─────────────────────────────────── */
+    #gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 2rem;
+    }
+
+    .gate-inner { width: 100%; max-width: 360px; text-align: center; }
+
+    .gate-wordmark {
+      font-family: var(--ff-display);
+      font-size: 1.6rem;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--warm-black);
+      margin-bottom: 0.25rem;
+    }
+
+    .gate-title {
+      font-family: var(--ff-body);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--light-text);
+      margin-bottom: 2.5rem;
+    }
+
+    .gate-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem;
+      box-shadow: 0 20px 60px rgba(28,24,21,0.07);
+    }
+
+    .gate-card p {
+      font-size: 0.82rem;
+      color: var(--mid);
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+
+    .gate-input {
+      width: 100%;
+      background: var(--cream);
+      border: 1px solid var(--beige-mid);
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
+      font-size: 0.9rem;
+      font-family: var(--ff-body);
+      color: var(--warm-black);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .gate-input:focus { border-color: var(--accent); }
+
+    .gate-btn {
+      display: block;
+      width: 100%;
+      margin-top: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: var(--accent);
+      color: var(--warm-black);
+      font-family: var(--ff-body);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .gate-btn:hover { opacity: 0.85; }
+
+    .gate-error { font-size: 0.75rem; color: #B85555; min-height: 1.2rem; margin-top: 0.6rem; }
+
+    .gate-footnote {
+      font-size: 0.68rem;
+      color: var(--light-text);
+      margin-top: 1.5rem;
+      line-height: 1.5;
+    }
+
+    /* ─── SITE WRAPPER ──────────────────────────────────── */
+    #site { visibility: hidden; }
+
+    /* ─── NAVIGATION ────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.1rem var(--gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .nav.scrolled {
+      background: rgba(249, 245, 240, 0.94);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+
+    .nav-logo img {
+      height: 40px;
+      width: auto;
+      display: block;
+    }
+
+    /* fallback text logo if image missing */
+    .nav-logo-text {
+      font-family: var(--ff-display);
+      font-size: 1.15rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: var(--warm-black);
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+
+    .nav-links a {
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--warm-black); }
+
+    .nav-cta {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.55rem 1.2rem;
+      background: var(--accent);
+      color: var(--warm-black);
+      border: 1px solid var(--accent);
+      border-radius: 100px;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+
+    .nav-cta:hover { opacity: 0.8; }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--warm-black);
+    }
+
+    /* ─── HERO ──────────────────────────────────────────── */
+    #home {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 var(--gutter) 6rem;
+      position: relative;
+      overflow: hidden;
+      background: #f9f5f0;
+    }
+
+    .hero-protea {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      height: 95%;
+      width: auto;
+      max-width: 55%;
+      object-fit: contain;
+      object-position: right bottom;
+      pointer-events: none;
+      z-index: 0;
+      mix-blend-mode: multiply;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-headline {
+      font-family: var(--ff-display);
+      font-size: clamp(3.5rem, 8vw, 8rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: var(--warm-black);
+      margin-bottom: 2rem;
+    }
+
+    .hero-headline em { font-style: italic; color: #f0cdc7; }
+
+    .hero-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-sub {
+      font-size: 0.92rem;
+      color: var(--mid);
+      max-width: 380px;
+      line-height: 1.8;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+
+    /* ─── BUTTONS ───────────────────────────────────────── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      background: var(--accent);
+      color: var(--warm-black);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover { opacity: 0.82; transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      border: 1px solid var(--beige-mid);
+      color: var(--mid);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 100px;
+      background: transparent;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    .btn-outline:hover { border-color: var(--mid); color: var(--warm-black); transform: translateY(-1px); }
+
+    /* White button variant for hero */
+    .btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      background: var(--white);
+      color: var(--warm-black);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .btn-white:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* Pink button variant */
+    .btn-pink {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      background: var(--accent);
+      color: var(--warm-black);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .btn-pink:hover { opacity: 0.82; transform: translateY(-1px); }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      right: var(--gutter);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      writing-mode: vertical-rl;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--light-text);
+    }
+
+    .hero-scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--beige-mid), transparent);
+    }
+
+    /* ─── SECTION SHARED ────────────────────────────────── */
+    section { padding: 6rem var(--gutter); }
+    .section-inner { max-width: var(--max-w); margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--warm-black);
+    }
+
+    .section-title em { font-style: italic; color: var(--mid); }
+
+    .divider { width: 48px; height: 1px; background: var(--accent); margin: 2rem 0; }
+
+    /* ─── ABOUT ─────────────────────────────────────────── */
+    #about { background: var(--white); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: stretch;
+    }
+
+    .about-image-wrap { position: relative; display: flex; flex-direction: column; }
+
+    .about-portrait {
+      width: 100%;
+      flex: 1;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 4px;
+      display: block;
+    }
+
+    /* placeholder shown if image missing */
+    .about-img-placeholder {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: var(--beige);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-img-placeholder .img-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--tan);
+    }
+
+    .about-img-accent {
+      position: absolute;
+      bottom: -1.5rem;
+      right: -1.5rem;
+      width: 55%;
+      aspect-ratio: 1;
+      background: var(--beige-mid);
+      border-radius: 4px;
+      z-index: -1;
+    }
+
+    .about-text {
+      padding-top: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Scrollable body copy area */
+    .about-body-scroll {
+      flex: 1;
+      min-height: 0;
+      max-height: 460px;
+      overflow-y: auto;
+      padding-right: 10px;
+      margin-bottom: 1.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--beige-mid) transparent;
+    }
+
+    .about-body-scroll::-webkit-scrollbar { width: 4px; }
+    .about-body-scroll::-webkit-scrollbar-track { background: transparent; }
+    .about-body-scroll::-webkit-scrollbar-thumb { background: var(--beige-mid); border-radius: 2px; }
+
+    .about-text p {
+      font-size: 0.96rem;
+      color: var(--mid);
+      line-height: 1.9;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ─── WORK ──────────────────────────────────────────── */
+    #work { background: #f9f5f0; }
+
+    .work-header {
+      margin-bottom: 2.5rem;
+    }
+
+    /* Full-width header image — natural height, full width */
+    .work-header-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    /* FNB Sync intro text box */
+    .work-fnb-intro {
+      margin-bottom: 3rem;
+    }
+
+    .work-fnb-intro p {
+      font-size: 0.94rem;
+      color: var(--mid);
+      line-height: 1.9;
+    }
+
+    .work-fnb-intro p:first-child {
+      font-family: var(--ff-display);
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--warm-black);
+      margin-bottom: 0.75rem;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.25rem;
+    }
+
+    .work-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 2px 16px rgba(28,24,21,0.06);
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+
+    .work-card:hover { box-shadow: 0 8px 32px rgba(28,24,21,0.12); transform: translateY(-2px); }
+
+    .work-card:nth-child(1) { grid-column: span 7; }
+    .work-card:nth-child(2) { grid-column: span 5; }
+    .work-card:nth-child(3) { grid-column: span 4; }
+    .work-card:nth-child(4) { grid-column: span 4; }
+    .work-card:nth-child(5) { grid-column: span 4; }
+
+    /* Thumbnail — clickable */
+    .work-thumb {
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .work-card:nth-child(1) .work-thumb { aspect-ratio: 16/10; }
+
+    .work-thumb-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.5s ease;
+      position: relative;
+    }
+
+    .work-card:hover .work-thumb-inner { transform: scale(1.03); }
+
+    /* Placeholder tones */
+    .work-card:nth-child(1) .work-thumb-inner { background: linear-gradient(145deg, #DDD0C0, #C8B89E); }
+    .work-card:nth-child(2) .work-thumb-inner { background: linear-gradient(145deg, #CFC5B5, #BAA98C); }
+    .work-card:nth-child(3) .work-thumb-inner { background: linear-gradient(145deg, #D5CBB8, #BFB09A); }
+    .work-card:nth-child(4) .work-thumb-inner { background: linear-gradient(145deg, #C9C0B0, #B5A892); }
+    .work-card:nth-child(5) .work-thumb-inner { background: linear-gradient(145deg, #D8CEBB, #C4B49E); }
+
+    /* Actual cover image fills the thumb */
+    .work-cover-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .thumb-text {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Click-to-enlarge icon */
+    .work-expand {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(250,247,242,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.85);
+      transition: opacity 0.25s, transform 0.25s;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .work-thumb:hover .work-expand { opacity: 1; transform: scale(1); }
+    .work-expand svg { width: 14px; height: 14px; }
+
+    /* Card info — white background */
+    .work-info {
+      background: var(--white);
+      padding: 1.25rem 1.25rem 1.5rem;
+    }
+
+    .work-title {
+      font-family: var(--ff-display);
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: var(--warm-black);
+      margin-bottom: 0.3rem;
+      line-height: 1.25;
+    }
+
+    .work-client { font-size: 0.78rem; color: var(--light-text); }
+
+    /* ─── LIGHTBOX ──────────────────────────────────────── */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: rgba(28, 24, 21, 0.88);
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      cursor: pointer;
+    }
+
+    .lightbox-overlay.open { display: flex; }
+
+    .lightbox-inner {
+      position: relative;
+      max-width: 1200px;
+      max-height: 90vh;
+      width: 100%;
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-img {
+      width: 100%;
+      height: auto;
+      max-height: 75vh;
+      object-fit: contain;
+      border-radius: 6px;
+      display: block;
+    }
+
+    /* Placeholder shown when no popup image is supplied */
+    .lightbox-placeholder {
+      width: 100%;
+      aspect-ratio: 16/10;
+      background: #2E2822;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .lightbox-placeholder p {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .lightbox-placeholder small {
+      color: rgba(255,255,255,0.25);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -2.5rem;
+      right: 0;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      opacity: 0.7;
+      line-height: 1;
+      transition: opacity 0.2s;
+    }
+
+    .lightbox-close:hover { opacity: 1; }
+
+    .lightbox-caption {
+      text-align: center;
+      margin-top: 1rem;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+    }
+
+    .lightbox-action {
+      margin-top: 1.25rem;
+    }
+
+    .lightbox-action a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.6rem;
+      background: var(--accent);
+      color: var(--warm-black);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .lightbox-action a:hover { opacity: 0.82; }
+
+    /* ─── LATEST AWARD ───────────────────────────────────── */
+    #award { background: var(--white); }
+
+    .award-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+    }
+
+    .award-body {
+      margin: 2.5rem 0;
+    }
+
+    .award-body p {
+      font-size: 0.96rem;
+      color: var(--mid);
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+    }
+
+    .award-image-gap {
+      margin-top: 20px;
+    }
+
+    .award-cta {
+      margin-top: 2.5rem;
+    }
+
+    /* ─── CONTACT ───────────────────────────────────────── */
+    #contact { background: var(--accent); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-lead {
+      font-family: var(--ff-display);
+      font-size: clamp(1.6rem, 3vw, 2.8rem);
+      font-weight: 300;
+      line-height: 1.25;
+      color: var(--white);
+      margin-top: 1rem;
+    }
+
+    .contact-lead em { font-style: italic; color: rgba(255,255,255,0.75); }
+
+    .contact-sub {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.85;
+      margin-top: 1.5rem;
+      max-width: 360px;
+    }
+
+    /* Section label override for contact */
+    #contact .section-label { color: var(--white); }
+
+    .contact-links { display: flex; flex-direction: column; margin-top: 3rem; }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      transition: color 0.2s;
+      color: var(--white);
+    }
+
+    .contact-link:first-child { border-top: 1px solid rgba(255,255,255,0.3); }
+    .contact-link:hover { color: rgba(255,255,255,0.75); }
+
+    .contact-link-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-link-value { font-size: 0.95rem; color: var(--white); }
+
+    .contact-link-arrow {
+      width: 18px; height: 18px;
+      flex-shrink: 0;
+      color: var(--white);
+      opacity: 0.7;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .contact-link:hover .contact-link-arrow { opacity: 1; transform: translate(3px,-3px); }
+
+    .contact-form {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 40px rgba(28,24,21,0.1);
+    }
+
+    .form-title {
+      font-family: var(--ff-display);
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--warm-black);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group { margin-bottom: 1.25rem; }
+
+    .form-label {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--light-text);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Form fields: 70% tint of #f9f5f0 on white = #fbf8f5 */
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      background: #fbf8f5;
+      border: 1px solid rgba(28,24,21,0.08);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      font-family: var(--ff-body);
+      color: var(--warm-black);
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus { border-color: var(--mid); }
+
+    .form-textarea { resize: vertical; min-height: 120px; line-height: 1.7; }
+
+    .form-submit {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--accent);
+      color: var(--warm-black);
+      font-family: var(--ff-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    .form-submit:hover { opacity: 0.82; }
+
+    /* ─── FOOTER ────────────────────────────────────────── */
+    footer {
+      background: #f9f5f0;
+      color: var(--mid);
+      padding: 2.5rem var(--gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo img {
+      height: 32px;
+      width: auto;
+      display: block;
+    }
+
+    .footer-logo-text {
+      font-family: var(--ff-display);
+      font-size: 1.05rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: var(--warm-black);
+    }
+
+    .footer-copy { font-size: 0.72rem; color: var(--mid); }
+
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+
+    .footer-links a {
+      font-size: 0.72rem;
+      color: var(--mid);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--warm-black); }
+
+    /* ─── SCROLL REVEAL ─────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ─── RESPONSIVE ────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; align-items: start; }
+      .about-image-wrap { max-width: 420px; }
+      .about-body-scroll { max-height: none; overflow-y: visible; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .work-card:nth-child(1) { grid-column: span 12; }
+      .work-card:nth-child(2) { grid-column: span 12; }
+      .work-card:nth-child(3) { grid-column: span 6; }
+      .work-card:nth-child(4) { grid-column: span 6; }
+      .work-card:nth-child(5) { grid-column: span 12; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .nav-toggle { display: flex; }
+      .nav.mobile-open .nav-links {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        inset: 0;
+        background: rgba(249,245,240,0.97);
+        align-items: center;
+        justify-content: center;
+        gap: 2.5rem;
+        z-index: 99;
+      }
+      .nav.mobile-open .nav-links a { font-size: 1.2rem; }
+      .work-card { grid-column: span 12 !important; }
+      .work-grid { gap: 1rem; }
+      section { padding: 4rem var(--gutter); }
+      .contact-form { padding: 1.75rem; }
+      footer { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .hero-protea { max-width: 80%; opacity: 0.5; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── LIGHTBOX OVERLAY ─────────────────────────────────── -->
+<div id="lightbox" class="lightbox-overlay" onclick="closeLightboxOnOverlay(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <div id="lightbox-content">
+      <!-- filled by JS -->
+    </div>
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+    <div class="lightbox-action" id="lightbox-action" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ─── PASSWORD GATE ──────────────────────────────────────── -->
+<div id="gate">
+  <div class="gate-inner">
+    <div class="gate-wordmark">Shaakira Titus</div>
+    <div class="gate-title">Art Director · Cape Town</div>
+    <div class="gate-card">
+      <p>This is a protected portfolio. Please enter the access password to continue.</p>
+      <input id="pwdInput" class="gate-input" type="password" placeholder="Enter password" autocomplete="off" />
+      <button id="unlockBtn" class="gate-btn">View Portfolio</button>
+      <div id="errorMsg" class="gate-error"></div>
+    </div>
+    <p class="gate-footnote">All work © Shaakira Titus. Please do not share without permission.</p>
+  </div>
+</div>
+
+<!-- ─── SITE ────────────────────────────────────────────────── -->
+<div id="site">
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <a href="#home" class="nav-logo">
+      <img src="ShaakiraButton.svg" alt="Shaakira Titus"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+      <span class="nav-logo-text" style="display:none;">Shaakira Titus</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#award">Award</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Get in touch</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ─── HERO ────────────────────────────────────────────── -->
+  <section id="home">
+    <!-- Protea background image — right/bottom aligned -->
+    <img src="proteabackground.png" alt="" class="hero-protea"
+         onerror="this.style.display='none';" />
+
+    <div class="hero-content">
+      <p class="hero-label reveal">Art Director · Cape Town, South Africa</p>
+      <h1 class="hero-headline reveal reveal-delay-1">
+        Design that<br/>
+        tells a <em>story.</em>
+      </h1>
+      <div class="hero-row">
+        <p class="hero-sub reveal reveal-delay-2">
+          An Art Director with a decade of experience shaping brand identities, digital publications, and editorial campaigns across some of South Africa's leading media companies.
+        </p>
+        <div class="hero-actions reveal reveal-delay-3">
+          <a href="#work" class="btn-primary">
+            View Selected Work
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 7h10M8 3l4 4-4 4"/>
+            </svg>
+          </a>
+          <a href="#contact" class="btn-white">Say hello</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ─── ABOUT ───────────────────────────────────────────── -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+
+        <div class="about-image-wrap reveal">
+          <!-- Portrait photo -->
+          <img src="myportrait.jpg" alt="Shaakira Titus" class="about-portrait"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="about-img-placeholder" style="display:none;">
+            <span class="img-label">Portrait photo</span>
+          </div>
+          <div class="about-img-accent"></div>
+        </div>
+
+        <div class="about-text">
+          <p class="section-label reveal" style="color: #f0cdc7;">About</p>
+          <h2 class="section-title reveal">A creative director<br/> rooted in <span style="color:#f0cdc7; font-style:italic;">craft.</span></h2>
+          <div class="divider reveal"></div>
+
+          <div class="about-body-scroll">
+            <p class="reveal">
+              I'm Shaakira Titus, an Art Director with a soft spot for pixels, paper, and everything in between.
+            </p>
+            <p class="reveal">
+              My creative adventure began in the world of print — back when deadlines were measured in ink and print runs. But curiosity got the best of me, and I soon dived headfirst into the wild, ever-evolving realm of digital design. Along the way, I picked up all sorts of creative tricks — from crafting animations and countless web banners, to coding mountains of mailers in basic HTML, designing websites, apps (both UI & UX), as well as digital magazines. I also refined my video editing skills through Adobe Premiere Pro training, with a focus on editing principles, workflow and time-based effects.
+            </p>
+            <p class="reveal">
+              That curiosity turned into leadership when I started guiding my team and company through their own digital transformations — developing digital design guidelines, running training sessions, and helping everyone embrace the new creative frontier. Turns out, I didn't just grow as a designer — I grew into a digital storyteller with a pretty solid bag of tricks.
+            </p>
+            <p class="reveal">
+              I'm currently at Media24 in Cape Town, looking after a high-profile client and making sure creativity meets clarity in every project. Before that, I was part of New Media (a sister company to the Media24 family), where I started out as a digital designer and got to collaborate with amazing brands like Eat Out, Woolworths Taste, Multichoice, Ackermans, Vodacom, Mediclinic, Sanlam, and Visi — and even New Media itself.
+            </p>
+            <p class="reveal">
+              Somewhere along the way, I found a new passion — visual internal communications. Shaping how a company talks to its people, builds culture, and expresses its personality became one of the most rewarding parts of my journey. And honestly, I still get excited about that every day.
+            </p>
+          </div>
+
+          <a href="#contact" class="btn-outline reveal" style="display:inline-flex; margin-top: 0; align-self: flex-start;">
+            Get in touch
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SELECTED WORK ────────────────────────────────────── -->
+  <section id="work">
+    <div class="section-inner">
+
+      <div class="work-header">
+        <p class="section-label reveal">Selected Work</p>
+        <h2 class="section-title reveal">Projects that<br/><span style="color:#f0cdc7; font-style:italic;">define the range.</span></h2>
+      </div>
+
+      <!-- Header landscape image — full natural height -->
+      <img src="SelectedWorkHeader.jpg" alt="Selected Work" class="work-header-image reveal"
+           onerror="this.style.display='none';" />
+
+      <!-- FNB Sync intro text -->
+      <div class="work-fnb-intro reveal">
+        <p>FNB Sync – My long-time design baby!</p>
+        <p>It's FNB's internal communications platform — tucked safely behind layers of bank-grade firewalls, accessible only to employees through the FNB app. Over the years, it's evolved into a vibrant digital space with four dynamic channels featuring company news, CEO messages, financial updates, insights, trends, and everything that fuels company culture — from competitions and awards to events, videos, galleries, podcasts, and talk shows. Every element was designed to spark engagement, connection, and a sense of belonging across the entire business.</p>
+      </div>
+
+      <div class="work-grid">
+
+        <!-- Card 1: Sync Cookbook 2024 — has "View Online" lightbox button -->
+        <div class="work-card reveal">
+          <div class="work-thumb" onclick="openLightbox('project1-detail.jpg', 'Sync Cookbook — 2024 Edition', {label:'VIEW ONLINE COOKBOOK', url:'https://www.siyasiza.com/sync-cookbook2024/'})">
+            <div class="work-thumb-inner">
+              <img src="project1-cover.jpg" alt="Sync Cookbook" class="work-cover-img"
+                   onerror="this.style.display='none';" />
+            </div>
+            <div class="work-expand">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 12L12 2M4 2h8v8"/>
+              </svg>
+            </div>
+          </div>
+          <div class="work-info">
+            <h3 class="work-title">Tried &amp; Tested cookbook — 2024</h3>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="work-card reveal reveal-delay-1">
+          <div class="work-thumb" onclick="openLightbox('project2-detail.jpg', 'Woolworths Taste — Campaign Direction')">
+            <div class="work-thumb-inner">
+              <img src="project2-cover.jpg" alt="Woolworths Taste" class="work-cover-img"
+                   onerror="this.style.display='none';" />
+            </div>
+            <div class="work-expand">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 12L12 2M4 2h8v8"/>
+              </svg>
+            </div>
+          </div>
+          <div class="work-info">
+            <h3 class="work-title">Help Journal — Informational notebook</h3>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="work-card reveal">
+          <div class="work-thumb" onclick="openLightbox('project3-detail.jpg', 'Eat Out — Digital Presence')">
+            <div class="work-thumb-inner">
+              <img src="project3-cover.jpg" alt="Eat Out" class="work-cover-img"
+                   onerror="this.style.display='none';" />
+            </div>
+            <div class="work-expand">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 12L12 2M4 2h8v8"/>
+              </svg>
+            </div>
+          </div>
+          <div class="work-info">
+            <h3 class="work-title">Sync Spring — Spring theme implementation</h3>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="work-card reveal reveal-delay-1">
+          <div class="work-thumb" onclick="openLightbox('project4-detail.jpg', 'Internal Comms — Visual System')">
+            <div class="work-thumb-inner">
+              <img src="project4-cover.jpg" alt="Internal Comms" class="work-cover-img"
+                   onerror="this.style.display='none';" />
+            </div>
+            <div class="work-expand">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 12L12 2M4 2h8v8"/>
+              </svg>
+            </div>
+          </div>
+          <div class="work-info">
+            <h3 class="work-title">Internal comms employee survey</h3>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="work-card reveal reveal-delay-2">
+          <div class="work-thumb" onclick="openLightbox('project5-detail.jpg', 'Motion & Web Banner Suite')">
+            <div class="work-thumb-inner">
+              <img src="project5-cover.jpg" alt="Motion Banners" class="work-cover-img"
+                   onerror="this.style.display='none';" />
+            </div>
+            <div class="work-expand">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 12L12 2M4 2h8v8"/>
+              </svg>
+            </div>
+          </div>
+          <div class="work-info">
+            <h3 class="work-title">Women's Month campaign</h3>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── LATEST AWARD ──────────────────────────────────────── -->
+  <section id="award">
+    <div class="section-inner">
+
+      <p class="section-label reveal">Latest Award</p>
+      <h2 class="section-title reveal">Recognised for work<br/>that <span style="color:#f0cdc7; font-style:italic;">connects.</span></h2>
+      <div class="divider reveal"></div>
+
+      <!-- Award image 1 -->
+      <img src="Awards-image1.jpg" alt="Award — Sync Cookbook campaign" class="award-image reveal"
+           onerror="this.style.display='none';" />
+
+      <!-- Award body copy -->
+      <div class="award-body">
+        <p class="reveal" style="font-family: var(--ff-display); font-size: 1.1rem; font-weight: 300; color: var(--warm-black); font-style: normal;">Internal communications is the heartbeat of any workplace — it's where company culture truly comes to life.</p>
+
+        <p class="reveal">The client needed stronger employee engagement, and I've always believed nothing brings people together quite like food. So, I built the concept around that universal truth. We asked employees to share their most treasured family recipes — the ones that never fail and have been passed down for generations — along with a short story about why the recipe meant so much to them, plus a photo of the person who handed it down.</p>
+
+        <p class="reveal">And wow, did the submissions pour in!</p>
+
+        <p class="reveal">We re-created and photographed every recipe in studio, then had employees vote for their favourite. But I didn't want it to end there. A great campaign should have legs — so we compiled every heartfelt recipe and story into a beautifully designed company recipe book, a tangible keepsake that celebrated the people and culture behind the brand. It was gifted to every employee at year-end.</p>
+
+        <p class="reveal">This campaign didn't just engage — it connected. It tugged at heartstrings, sparked conversations, and gave everyone something truly meaningful to hold onto. We submitted it to the 2024 Eddie &amp; Ozzie Awards — and proudly brought home an Eddie for Custom Content Marketing in New York.</p>
+      </div>
+
+      <!-- Award image 2 -->
+      <img src="Awards-image2.jpg" alt="Award campaign — cookbook photography" class="award-image reveal"
+           onerror="this.style.display='none';" />
+
+      <!-- Award image 3 -->
+      <div class="award-image-gap">
+        <img src="Awards-image3.jpg" alt="Award campaign — recipe book design" class="award-image reveal"
+             onerror="this.style.display='none';" />
+      </div>
+
+      <!-- Award image 4 -->
+      <div class="award-image-gap">
+        <img src="Awards-image4.jpg" alt="Award campaign — book gifting" class="award-image reveal"
+             onerror="this.style.display='none';" />
+      </div>
+
+      <!-- CTA button -->
+      <div class="award-cta reveal">
+        <a href="https://www.siyasiza.com/sync-cookbook2023/" target="_blank" rel="noopener" class="btn-pink">
+          View Cookbook Online
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 12L12 2M4 2h8v8"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── CONTACT ──────────────────────────────────────────── -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="contact-grid">
+        <div>
+          <p class="section-label reveal">Contact</p>
+          <h2 class="contact-lead reveal">
+            Open to new<br/> opportunities &<br/> <em>collaborations.</em>
+          </h2>
+          <p class="contact-sub reveal">
+            If you're looking for a senior creative who brings both vision and craft to the table — I'd love to hear from you.
+          </p>
+
+          <div class="contact-links reveal">
+            <a class="contact-link" href="mailto:shaakira.titus69.st@gmail.com">
+              <div>
+                <p class="contact-link-label">Email</p>
+                <p class="contact-link-value">shaakira.titus69.st@gmail.com</p>
+              </div>
+              <svg class="contact-link-arrow" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 15L15 3M5 3h10v10"/>
+              </svg>
+            </a>
+            <a class="contact-link" href="https://www.linkedin.com/in/shaakira-titus/" target="_blank" rel="noopener">
+              <div>
+                <p class="contact-link-label">LinkedIn</p>
+                <p class="contact-link-value">linkedin.com/in/shaakira-titus</p>
+              </div>
+              <svg class="contact-link-arrow" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 15L15 3M5 3h10v10"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-form reveal">
+          <h3 class="form-title">Send a message</h3>
+          <form onsubmit="handleFormSubmit(event)">
+            <div class="form-group">
+              <label class="form-label" for="fname">Your name</label>
+              <input class="form-input" id="fname" type="text" placeholder="Jane Smith" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="femail">Email address</label>
+              <input class="form-input" id="femail" type="email" placeholder="hello@company.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fsubject">Reason for reaching out</label>
+              <select class="form-select" id="fsubject">
+                <option value="">Select…</option>
+                <option>Job opportunity</option>
+                <option>Freelance project</option>
+                <option>Collaboration</option>
+                <option>General enquiry</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fmessage">Message</label>
+              <textarea class="form-textarea" id="fmessage" placeholder="Tell me a bit about what you're working on…" required></textarea>
+            </div>
+            <button type="submit" class="form-submit">Send message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <a href="#home" class="footer-logo">
+      <img src="ShaakiraButton.svg" alt="Shaakira Titus"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+      <span class="footer-logo-text" style="display:none;">Shaakira Titus</span>
+    </a>
+    <span class="footer-copy">© 2025 Shaakira Titus. All rights reserved.</span>
+    <ul class="footer-links">
+      <li><a href="#home">Top</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="mailto:shaakira.titus69.st@gmail.com">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/shaakira-titus/" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+  </footer>
+
+</div><!-- /#site -->
+
+<script>
+  /* ─── PASSWORD ──────────────────────────── */
+  const PASSWORD = "protea";
+  const gate = document.getElementById('gate');
+  const site = document.getElementById('site');
+  const pwdInput = document.getElementById('pwdInput');
+  const unlockBtn = document.getElementById('unlockBtn');
+  const errorMsg = document.getElementById('errorMsg');
+
+  function tryUnlock() {
+    if (pwdInput.value.trim() === PASSWORD) {
+      site.style.visibility = 'visible';
+      gate.style.display = 'none';
+    } else {
+      errorMsg.textContent = 'Incorrect password — please try again.';
+      pwdInput.value = '';
+      pwdInput.focus();
+    }
+  }
+
+  unlockBtn.addEventListener('click', tryUnlock);
+  pwdInput.addEventListener('keypress', e => { if (e.key === 'Enter') tryUnlock(); });
+
+  /* ─── NAV SCROLL ────────────────────────── */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  /* ─── MOBILE NAV ────────────────────────── */
+  const navToggle = document.getElementById('navToggle');
+  navToggle.addEventListener('click', () => nav.classList.toggle('mobile-open'));
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => nav.classList.remove('mobile-open'));
+  });
+
+  /* ─── SCROLL REVEAL ─────────────────────── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* ─── LIGHTBOX ──────────────────────────── */
+  const lightbox = document.getElementById('lightbox');
+  const lightboxContent = document.getElementById('lightbox-content');
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const lightboxAction = document.getElementById('lightbox-action');
+
+  function openLightbox(imageSrc, caption, actionBtn) {
+    lightboxContent.innerHTML = '';
+    lightboxCaption.textContent = caption || '';
+
+    // Button (optional)
+    if (actionBtn && actionBtn.label && actionBtn.url) {
+      lightboxAction.style.display = 'block';
+      lightboxAction.innerHTML = `<a href="${actionBtn.url}" target="_blank" rel="noopener">${actionBtn.label}</a>`;
+    } else {
+      lightboxAction.style.display = 'none';
+      lightboxAction.innerHTML = '';
+    }
+
+    const img = new Image();
+    img.className = 'lightbox-img';
+    img.alt = caption || '';
+    img.onload = function() {
+      lightboxContent.innerHTML = '';
+      lightboxContent.appendChild(img);
+    };
+    img.onerror = function() {
+      lightboxContent.innerHTML = `
+        <div class="lightbox-placeholder">
+          <p>Detail image</p>
+          <small>Place ${imageSrc} in the Shakes Portfolio folder — 1600 × 1000 px</small>
+        </div>`;
+    };
+    img.src = imageSrc;
+    lightboxContent.appendChild(img);
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeLightboxOnOverlay(e) {
+    if (e.target === lightbox) closeLightbox();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  /* ─── CONTACT FORM ──────────────────────── */
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    const name = document.getElementById('fname').value;
+    const email = document.getElementById('femail').value;
+    const subject = document.getElementById('fsubject').value;
+    const message = document.getElementById('fmessage').value;
+    const body = `Hi Shaakira,\n\n${message}\n\n— ${name}\n${email}`;
+    window.location.href = `mailto:shaakira.titus69.st@gmail.com?subject=${encodeURIComponent(subject || 'Portfolio Enquiry')}&body=${encodeURIComponent(body)}`;
+  }
+</script>
+
+</body>
+</html>
