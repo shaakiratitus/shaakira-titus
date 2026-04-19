@@ -598,6 +598,37 @@
     .work-card:nth-child(3) .work-thumb-inner { background: linear-gradient(145deg, #D5CBB8, #BFB09A); }
     .work-card:nth-child(4) .work-thumb-inner { background: linear-gradient(145deg, #C9C0B0, #B5A892); }
     .work-card:nth-child(5) .work-thumb-inner { background: linear-gradient(145deg, #D8CEBB, #C4B49E); }
+    .work-card:nth-child(6) .work-thumb-inner { background: linear-gradient(145deg, #E0D3C4, #CBBFAD); }
+    .work-card:nth-child(7) .work-thumb-inner { background: linear-gradient(145deg, #D4C8B8, #C0B49E); }
+    .work-card:nth-child(8) .work-thumb-inner { background: linear-gradient(145deg, #DCCFC0, #C8BCAA); }
+    .work-card:nth-child(9) .work-thumb-inner { background: linear-gradient(145deg, #D0C4B4, #BCB09A); }
+    .work-card:nth-child(10) .work-thumb-inner { background: linear-gradient(145deg, #E2D6C8, #CEBEAA); }
+    .work-card:nth-child(11) .work-thumb-inner { background: linear-gradient(145deg, #D6CAB8, #C2B6A0); }
+
+    /* Column spans for new cards */
+    .work-card:nth-child(6)  { grid-column: span 6; }
+    .work-card:nth-child(7)  { grid-column: span 6; }
+    .work-card:nth-child(8)  { grid-column: span 4; }
+    .work-card:nth-child(9)  { grid-column: span 4; }
+    .work-card:nth-child(10) { grid-column: span 4; }
+    .work-card:nth-child(11) { grid-column: span 4; }
+
+    /* Cards 6–11: show full image, no cropping */
+    .work-card:nth-child(n+6) .work-thumb {
+      aspect-ratio: unset;
+      height: auto;
+    }
+    .work-card:nth-child(n+6) .work-thumb-inner {
+      height: auto;
+      min-height: 0;
+    }
+    .work-card:nth-child(n+6) .work-cover-img {
+      position: static;
+      width: 100%;
+      height: auto;
+      object-fit: unset;
+      inset: unset;
+    }
 
     /* Actual cover image fills the thumb */
     .work-cover-img {
@@ -763,6 +794,86 @@
     }
 
     .lightbox-action a:hover { opacity: 0.82; }
+
+    /* ─── GALLERY ARROWS & VIDEO ─────────────────────────── */
+    .gallery-layout {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .gallery-arrow {
+      background: none;
+      border: 2px solid #f0cdc7;
+      color: #f0cdc7;
+      font-size: 1.8rem;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      opacity: 0.85;
+      transition: opacity 0.2s, background 0.2s;
+      line-height: 1;
+      padding-bottom: 2px;
+    }
+
+    .gallery-arrow:hover { opacity: 1; background: rgba(240,205,199,0.15); }
+    .gallery-arrow.hidden { visibility: hidden; }
+
+    .gallery-counter {
+      text-align: center;
+      margin-top: 0.75rem;
+      color: rgba(255,255,255,0.45);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      min-height: 1rem;
+    }
+
+    /* Video in lightbox */
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-video {
+      width: 100%;
+      max-height: 72vh;
+      border-radius: 6px;
+      display: block;
+      background: #000;
+    }
+
+    .video-play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: rgba(240, 205, 199, 0.92);
+      color: #1C1815;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      padding-left: 4px; /* optical centre for triangle */
+    }
+
+    .video-play-btn:hover {
+      opacity: 0.88;
+      transform: translate(-50%, -50%) scale(1.08);
+    }
 
     /* ─── LATEST AWARD ───────────────────────────────────── */
     #award { background: var(--white); }
@@ -1023,9 +1134,12 @@
 <div id="lightbox" class="lightbox-overlay" onclick="closeLightboxOnOverlay(event)">
   <div class="lightbox-inner">
     <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-    <div id="lightbox-content">
-      <!-- filled by JS -->
+    <div class="gallery-layout">
+      <button id="gallery-prev" class="gallery-arrow hidden" onclick="galleryPrev()">&#8249;</button>
+      <div id="lightbox-content"></div>
+      <button id="gallery-next" class="gallery-arrow hidden" onclick="galleryNext()">&#8250;</button>
     </div>
+    <div class="gallery-counter" id="gallery-counter"></div>
     <div class="lightbox-action" id="lightbox-action" style="display:none;"></div>
   </div>
 </div>
@@ -1057,7 +1171,7 @@
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#about">About</a></li>
-      <li><a href="#work">Latest Work</a></li>
+      <li><a href="#work">Work</a></li>
       <li><a href="#award">Award</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -1153,7 +1267,7 @@
     <div class="section-inner">
 
       <div class="work-header">
-        <p class="section-label reveal">Latest Work</p>
+        <p class="section-label reveal">Work</p>
         <h2 class="section-title reveal">Projects that<br/><span style="color:#f0cdc7; font-style:italic;">define the range.</span></h2>
       </div>
 
@@ -1256,6 +1370,161 @@
           </div>
           <div class="work-info">
             <h3 class="work-title">Women's Month campaign</h3>
+          </div>
+        </div>
+
+        <!-- Card 6: SpringFeels — gallery with video -->
+        <div class="work-card reveal">
+          <div class="work-thumb" onclick="openGallery([
+            {src:'project6-detail1.jpg',type:'image'},
+            {src:'project6-detail2.mp4',type:'video'},
+            {src:'project6-detail3.jpg',type:'image'},
+            {src:'project6-detail4.jpg',type:'image'},
+            {src:'project6-detail5.jpg',type:'image'},
+            {src:'project6-detail6.jpg',type:'image'}
+          ])">
+            <div class="work-thumb-inner">
+              <img src="project6-cover.jpg" alt="SpringFeels" class="work-cover-img"
+                   onerror="this.style.display='none';" />
+            </div>
+            <div class="work-expand">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 12L12 2M4 2h8v8"/>
+              </svg>
+            </div>
+          </div>
+          <div class="work-info">
+            <h3 class="work-title">SpringFeels</h3>
+          </div>
+        </div>
+
+        <!-- Card 7: Happy holidays video — single video only -->
+        <div class="work-card reveal reveal-delay-1">
+          <div class="work-thumb" onclick="openVideoLightbox('project7-detail.mp4')">
+            <div class="work-thumb-inner">
+              <img src="project7-cover.jpg" alt="Happy holidays video" class="work-cover-img"
+                   onerror="this.style.display='none';" />
+            </div>
+            <div class="work-expand">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 12L12 2M4 2h8v8"/>
+              </svg>
+            </div>
+          </div>
+          <div class="work-info">
+            <h3 class="work-title">Happy holidays video</h3>
+          </div>
+        </div>
+
+        <!-- Card 8: Character design: Solomon & Nimrod — gallery -->
+        <div class="work-card reveal">
+          <div class="work-thumb" onclick="openGallery([
+            {src:'project8-detail1.jpg',type:'image'},
+            {src:'project8-detail2.jpg',type:'image'},
+            {src:'project8-detail3.jpg',type:'image'},
+            {src:'project8-detail4.jpg',type:'image'},
+            {src:'project8-detail5.jpg',type:'image'},
+            {src:'project8-detail6.jpg',type:'image'},
+            {src:'project8-detail7.jpg',type:'image'},
+            {src:'project8-detail8.jpg',type:'image'},
+            {src:'project8-detail9.jpg',type:'image'}
+          ])">
+            <div class="work-thumb-inner">
+              <img src="project8-cover.jpg" alt="Character design: Solomon &amp; Nimrod" class="work-cover-img"
+                   onerror="this.style.display='none';" />
+            </div>
+            <div class="work-expand">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 12L12 2M4 2h8v8"/>
+              </svg>
+            </div>
+          </div>
+          <div class="work-info">
+            <h3 class="work-title">Character design: Solomon &amp; Nimrod</h3>
+          </div>
+        </div>
+
+        <!-- Card 9: Character design: Nala & Mbali — gallery -->
+        <div class="work-card reveal reveal-delay-1">
+          <div class="work-thumb" onclick="openGallery([
+            {src:'project9-detail1.jpg',type:'image'},
+            {src:'project9-detail2.jpg',type:'image'},
+            {src:'project9-detail3.jpg',type:'image'},
+            {src:'project9-detail4.jpg',type:'image'}
+          ])">
+            <div class="work-thumb-inner">
+              <img src="project9-cover.jpg" alt="Character design: Nala &amp; Mbali" class="work-cover-img"
+                   onerror="this.style.display='none';" />
+            </div>
+            <div class="work-expand">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 12L12 2M4 2h8v8"/>
+              </svg>
+            </div>
+          </div>
+          <div class="work-info">
+            <h3 class="work-title">Character design: Nala &amp; Mbali</h3>
+          </div>
+        </div>
+
+        <!-- Card 10: Presentation design: Video proposal — gallery -->
+        <div class="work-card reveal reveal-delay-2">
+          <div class="work-thumb" onclick="openGallery([
+            {src:'project10-detail1.jpg',type:'image'},
+            {src:'project10-detail2.jpg',type:'image'},
+            {src:'project10-detail3.jpg',type:'image'},
+            {src:'project10-detail4.jpg',type:'image'},
+            {src:'project10-detail5.jpg',type:'image'},
+            {src:'project10-detail6.jpg',type:'image'},
+            {src:'project10-detail7.jpg',type:'image'},
+            {src:'project10-detail8.jpg',type:'image'},
+            {src:'project10-detail9.jpg',type:'image'},
+            {src:'project10-detail10.jpg',type:'image'},
+            {src:'project10-detail11.jpg',type:'image'}
+          ])">
+            <div class="work-thumb-inner">
+              <img src="project10-cover.jpg" alt="Presentation design: Video proposal" class="work-cover-img"
+                   onerror="this.style.display='none';" />
+            </div>
+            <div class="work-expand">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 12L12 2M4 2h8v8"/>
+              </svg>
+            </div>
+          </div>
+          <div class="work-info">
+            <h3 class="work-title">Presentation design: Video proposal</h3>
+          </div>
+        </div>
+
+        <!-- Card 11: Presentation design: Content planning workshop — gallery -->
+        <div class="work-card reveal">
+          <div class="work-thumb" onclick="openGallery([
+            {src:'project11-detail1.jpg',type:'image'},
+            {src:'project11-detail2.jpg',type:'image'},
+            {src:'project11-detail3.jpg',type:'image'},
+            {src:'project11-detail4.jpg',type:'image'},
+            {src:'project11-detail5.jpg',type:'image'},
+            {src:'project11-detail6.jpg',type:'image'},
+            {src:'project11-detail7.jpg',type:'image'},
+            {src:'project11-detail8.jpg',type:'image'},
+            {src:'project11-detail9.jpg',type:'image'},
+            {src:'project11-detail10.jpg',type:'image'},
+            {src:'project11-detail11.jpg',type:'image'},
+            {src:'project11-detail12.jpg',type:'image'}
+          ])">
+            <div class="work-thumb-inner">
+              <img src="project11-cover.jpg" alt="Presentation design: Content planning workshop" class="work-cover-img"
+                   onerror="this.style.display='none';" />
+            </div>
+            <div class="work-expand">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 12L12 2M4 2h8v8"/>
+              </svg>
+            </div>
+          </div>
+          <div class="work-info">
+            <h3 class="work-title">Presentation design: Content planning workshop</h3>
           </div>
         </div>
 
@@ -1393,7 +1662,7 @@
     <span class="footer-copy">© 2025 Shaakira Titus. All rights reserved.</span>
     <ul class="footer-links">
       <li><a href="#home">Top</a></li>
-      <li><a href="#work">Latest Work</a></li>
+      <li><a href="#work">Work</a></li>
       <li><a href="mailto:shaakira.titus69.st@gmail.com">Email</a></li>
       <li><a href="https://www.linkedin.com/in/shaakira-titus/" target="_blank" rel="noopener">LinkedIn</a></li>
     </ul>
@@ -1446,16 +1715,89 @@
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  /* ─── LIGHTBOX ──────────────────────────── */
-  const lightbox = document.getElementById('lightbox');
+  /* ─── LIGHTBOX & GALLERY ────────────────── */
+  const lightbox        = document.getElementById('lightbox');
   const lightboxContent = document.getElementById('lightbox-content');
-  const lightboxCaption = document.getElementById('lightbox-caption');
-  const lightboxAction = document.getElementById('lightbox-action');
+  const lightboxAction  = document.getElementById('lightbox-action');
+  const galleryPrevBtn  = document.getElementById('gallery-prev');
+  const galleryNextBtn  = document.getElementById('gallery-next');
+  const galleryCounter  = document.getElementById('gallery-counter');
 
-  function openLightbox(imageSrc, caption, actionBtn) {
+  let galleryItems  = [];
+  let galleryIndex  = 0;
+
+  /* ── Render current gallery item ── */
+  function renderGalleryItem() {
+    const item = galleryItems[galleryIndex];
     lightboxContent.innerHTML = '';
 
-    // Button (optional)
+    if (item.type === 'video') {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'video-wrapper';
+
+      const video = document.createElement('video');
+      video.src = item.src;
+      video.className = 'lightbox-video';
+      video.preload = 'metadata';
+      video.playsInline = true;
+
+      const playBtn = document.createElement('div');
+      playBtn.className = 'video-play-btn';
+      playBtn.innerHTML = '&#9654;';
+      playBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        video.controls = true;
+        playBtn.style.display = 'none';
+        video.play();
+      });
+
+      video.addEventListener('pause', function() {
+        if (video.ended || video.paused) { playBtn.style.display = 'flex'; video.controls = false; }
+      });
+
+      wrapper.appendChild(video);
+      wrapper.appendChild(playBtn);
+      lightboxContent.appendChild(wrapper);
+    } else {
+      const img = new Image();
+      img.className = 'lightbox-img';
+      img.src = item.src;
+      img.onerror = function() {
+        lightboxContent.innerHTML = `<div class="lightbox-placeholder"><p>Image not found</p><small>${item.src}</small></div>`;
+      };
+      lightboxContent.appendChild(img);
+    }
+
+    /* Arrows: show only if gallery has more than 1 item */
+    const multi = galleryItems.length > 1;
+    galleryPrevBtn.classList.toggle('hidden', !multi);
+    galleryNextBtn.classList.toggle('hidden', !multi);
+    galleryCounter.textContent = multi ? `${galleryIndex + 1} / ${galleryItems.length}` : '';
+  }
+
+  /* ── Stop any playing video ── */
+  function stopVideo() {
+    const v = lightboxContent.querySelector('video');
+    if (v) { v.pause(); v.currentTime = 0; }
+  }
+
+  /* ── Open gallery (array of {src, type}) ── */
+  function openGallery(items, startIndex) {
+    galleryItems = items;
+    galleryIndex = startIndex || 0;
+    lightboxAction.style.display = 'none';
+    renderGalleryItem();
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  /* ── Open single video (no arrows) ── */
+  function openVideoLightbox(src) {
+    openGallery([{ src: src, type: 'video' }], 0);
+  }
+
+  /* ── Open single image (legacy projects 1–5) ── */
+  function openLightbox(imageSrc, caption, actionBtn) {
     if (actionBtn && actionBtn.label && actionBtn.url) {
       lightboxAction.style.display = 'block';
       lightboxAction.innerHTML = `<a href="${actionBtn.url}" target="_blank" rel="noopener">${actionBtn.label}</a>`;
@@ -1463,30 +1805,28 @@
       lightboxAction.style.display = 'none';
       lightboxAction.innerHTML = '';
     }
-
-    const img = new Image();
-    img.className = 'lightbox-img';
-    img.alt = caption || '';
-    img.onload = function() {
-      lightboxContent.innerHTML = '';
-      lightboxContent.appendChild(img);
-    };
-    img.onerror = function() {
-      lightboxContent.innerHTML = `
-        <div class="lightbox-placeholder">
-          <p>Detail image</p>
-          <small>Place ${imageSrc} in the Shakes Portfolio folder — 1600 × 1000 px</small>
-        </div>`;
-    };
-    img.src = imageSrc;
-    lightboxContent.appendChild(img);
-    lightbox.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    openGallery([{ src: imageSrc, type: 'image' }], 0);
   }
 
+  /* ── Gallery navigation ── */
+  function galleryPrev() {
+    stopVideo();
+    galleryIndex = (galleryIndex - 1 + galleryItems.length) % galleryItems.length;
+    renderGalleryItem();
+  }
+
+  function galleryNext() {
+    stopVideo();
+    galleryIndex = (galleryIndex + 1) % galleryItems.length;
+    renderGalleryItem();
+  }
+
+  /* ── Close ── */
   function closeLightbox() {
+    stopVideo();
     lightbox.classList.remove('open');
     document.body.style.overflow = '';
+    galleryItems = [];
   }
 
   function closeLightboxOnOverlay(e) {
@@ -1494,7 +1834,10 @@
   }
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeLightbox();
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape')      closeLightbox();
+    if (e.key === 'ArrowLeft')   galleryPrev();
+    if (e.key === 'ArrowRight')  galleryNext();
   });
 
   /* ─── CONTACT FORM ──────────────────────── */
